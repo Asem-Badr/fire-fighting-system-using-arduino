@@ -1,6 +1,6 @@
 #include <LiquidCrystal.h>
 #include <Servo.h>
-#define conPower 150
+#define conPower 110
 unsigned char  servo_pin = 5;
 unsigned char  sensor1 = 2;
 unsigned char  sensor2 = 3;
@@ -57,6 +57,7 @@ void lcdUpdate()
     lcd.setCursor(0, 1);
     lcd.print("     No fire     ");
     digitalWrite(buzzer_pin, LOW);
+    digitalWrite(pump_pin, LOW);
   }
   else
   {
@@ -93,7 +94,7 @@ void cheakSensors ()//works fine
 void cheakUser()
 {
   servo_degrees = map( analogRead(A0), 0, 1023, 0, 180);
-  pump_power = map( analogRead(A1), 0, 1023, 0, 255);
+  pump_power = map( analogRead(A1), 0, 1023, 90, 255);
 }
 
 void fight ()
@@ -119,6 +120,10 @@ void fight ()
     setServo(servo_degrees);
     setPump(pump_power);
     //lcd new instructions
+  }
+  else
+  {
+    pump_power = 0;
   }
   setServo(servo_degrees); 
   setPump(pump_power);
